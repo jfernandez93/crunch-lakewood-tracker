@@ -13,7 +13,7 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 
 ## The plan (see `PLAN.md`)
 
-8-week upper/lower cycle, 4 days a week (Mon Upper A, Tue Lower A, Thu Upper B, Sat Lower B), double progression: hit the top of the rep range on every set, then add 5 lb (10 lb on leg press, hack squat, glute drive, Smith). Week 4 is a deload, week 8 is a test week.
+8-week full-body cycle, 2 days a week (Sat Full Body A, Sun Full Body B), double progression: hit the top of the rep range on every set, then add 5 lb (10 lb on leg press, hack squat, glute drive, Smith). Week 4 is a deload, week 8 is a test week.
 
 ## About the machine list
 

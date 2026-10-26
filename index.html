@@ -267,13 +267,11 @@ const KINDS=['Selectorized','Plate-loaded','Cable','Free weight','Bodyweight','C
 
 // day key -> [machine, sets, repLow, repHigh]   (cardio: sets=1, reps = minutes)
 const DAYS={
-  A:{name:'Upper A',sub:'Chest, back, shoulders, arms',items:[['chest-press',3,8,12],['lat-pulldown',3,8,12],['shoulder-press',3,8,12],['seated-row',3,10,12],['pec-fly',2,12,15],['triceps-pushdown',2,12,15],['biceps-curl',2,12,15],['elliptical',1,10,10]]},
-  B:{name:'Lower A',sub:'Quads, hamstrings, core',items:[['leg-press',3,8,12],['seated-curl',3,10,12],['leg-ext',3,10,15],['hip-abd',2,15,20],['calf',3,12,15],['ab-crunch',3,12,15],['bike',1,10,10]]},
-  C:{name:'Upper B',sub:'Back, shoulders, arms',items:[['incline-press',3,8,10],['iso-row',3,8,12],['assist-pullup',3,6,10],['lateral-raise',3,12,15],['rear-delt',2,12,15],['triceps-press',2,10,12],['cable-curl',2,10,12],['stair',1,10,10]]},
-  D:{name:'Lower B',sub:'Glutes, hamstrings, core',items:[['hack-squat',3,8,10],['glute-drive',3,8,12],['lying-curl',3,10,12],['hip-add',2,12,15],['back-ext',3,10,15],['captain',3,8,12],['treadmill',1,15,15]]},
+  A:{name:'Full Body A',sub:'Quads, chest, back, hamstrings',items:[['leg-press',3,8,12],['chest-press',3,8,12],['lat-pulldown',3,8,12],['seated-curl',3,10,12],['shoulder-press',2,10,12],['triceps-pushdown',2,12,15],['calf',2,12,15],['ab-crunch',2,12,15],['elliptical',1,10,10]]},
+  B:{name:'Full Body B',sub:'Glutes, back, chest, shoulders',items:[['glute-drive',3,8,12],['iso-row',3,8,12],['incline-press',3,8,10],['leg-ext',2,12,15],['lateral-raise',2,12,15],['cable-curl',2,10,12],['back-ext',2,10,15],['captain',2,8,12],['treadmill',1,15,15]]},
 };
-const ORDER=['A','B','C','D'];
-const SCHEDULE=[['Mon','A'],['Tue','B'],['Wed',null],['Thu','C'],['Fri',null],['Sat','D'],['Sun',null]];
+const ORDER=['A','B'];
+const SCHEDULE=[['Mon',null],['Tue',null],['Wed',null],['Thu',null],['Fri',null],['Sat','A'],['Sun','B']];
 const PHASES={1:['Calibrate','Find your working weights. End every set with about 2 reps left in the tank.'],
   2:['Build','Use the suggested weight. Add a rep where you can.'],3:['Build','Use the suggested weight. Add a rep where you can.'],
   4:['Deload','One fewer set on every machine, same weights. Let your joints catch up.'],
@@ -507,15 +505,15 @@ function vPlan(){
   return `
   <section class="card pad">
     <span class="label">Your program</span>
-    <h2 style="font-size:32px;text-transform:uppercase;margin-top:4px">8-week upper / lower</h2>
-    <div class="prose" style="margin-top:10px"><p>Four machine-based days a week, each body part twice. Every session ends with 10–15 minutes of cardio. Each workout runs about an hour.</p></div>
+    <h2 style="font-size:32px;text-transform:uppercase;margin-top:4px">8-week full body</h2>
+    <div class="prose" style="margin-top:10px"><p>Two full-body days, Saturday and Sunday, so every major muscle gets trained twice a week. Sunday works your legs from different angles (glutes and quads on separate machines) so back-to-back days don't overload the same joints. Every session ends with 10–15 minutes of cardio and runs about 65 minutes.</p><p>Club hours both days are 7:00 am – 7:00 pm.</p></div>
     <div class="phases" aria-label="Cycle weeks">${[1,2,3,4,5,6,7,8].map(w=>`<div class="${w===week?'is':''} ${w===4?'dl':''}"><b>${w}</b>${PHASES[w][0]}</div>`).join('')}</div>
     <p class="muted" style="margin:10px 0 0;font-size:13.5px">You're in cycle ${cycle}, week ${week}: ${esc(PHASES[week][1])}${S.profile.startDate?'':' The clock starts with your first workout.'}</p>
   </section>
   <section>
     <div class="ghead"><h2>Weekly schedule</h2><span class="rule" style="background:var(--line)"></span></div>
-    <div class="card pad"><table class="ptable"><tbody>${SCHEDULE.map(([d,k])=>`<tr><td><b>${d}</b></td><td>${k?esc(DAYS[k].name)+' <span class="muted">· '+esc(DAYS[k].sub)+'</span>':'<span class="muted">Rest, or a walk / class</span>'}</td><td></td></tr>`).join('')}</tbody></table>
-    <p class="muted" style="margin:10px 0 0;font-size:13.5px">Miss a day? Don't skip ahead. The app always queues the next workout in order: Upper A → Lower A → Upper B → Lower B.</p></div>
+    <div class="card pad"><table class="ptable"><tbody>${SCHEDULE.map(([d,k])=>`<tr><td><b>${d}</b></td><td>${k?esc(DAYS[k].name)+' <span class="muted">· '+esc(DAYS[k].sub)+'</span>':'<span class="muted">Rest. A walk or an easy ride helps recovery.</span>'}</td><td></td></tr>`).join('')}</tbody></table>
+    <p class="muted" style="margin:10px 0 0;font-size:13.5px">Miss a day? Don't skip ahead. The app always queues the next workout in order: Full Body A → Full Body B. If you only make it once that weekend, the other one is waiting next time.</p></div>
   </section>
   <section class="days">${ORDER.map(k=>{const d=DAYS[k];return `<div class="card pad daycard"><h3>${esc(d.name)}</h3><div class="muted" style="font-size:13px;margin-bottom:6px">${esc(d.sub)}</div><table class="ptable"><tbody>${d.items.map(([m,n,lo,hi])=>{const mm=mach(m);return `<tr><td><span class="row">${plate(mm.group)}${esc(mm.name)}</span></td><td>${target(n,lo,hi,mm)}</td></tr>`}).join('')}</tbody></table></div>`}).join('')}</section>
   <section class="card pad prose">

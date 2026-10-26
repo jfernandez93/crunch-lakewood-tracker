@@ -1,30 +1,24 @@
-# 8-Week Upper / Lower Plan – Crunch Lakewood
+# 8-Week Full-Body Plan – Crunch Lakewood (Weekends)
 
-Four machine-based days a week. Each muscle group gets trained twice. Every day ends with 10–15 min of cardio. About an hour per session.
+Two full-body days: **Saturday and Sunday**. Every major muscle gets trained twice a week. Sunday hits legs from different angles than Saturday (glutes and quads on separate machines) so back-to-back days don't overload the same joints. Each session ends with 10–15 min of cardio and runs about 65 minutes.
+
+Club hours Sat–Sun: 7:00 am – 7:00 pm.
 
 ## Weekly schedule
 
 | Day | Workout | Focus |
 |-----|---------|-------|
-| Mon | Upper A | Chest, back, shoulders, arms |
-| Tue | Lower A | Quads, hamstrings, core |
-| Wed | Rest | Walk or a class |
-| Thu | Upper B | Back, shoulders, arms |
-| Fri | Rest | (club closes 9 pm) |
-| Sat | Lower B | Glutes, hamstrings, core (club open 7 am–7 pm) |
-| Sun | Rest | |
+| Mon–Fri | Rest | A walk or an easy ride helps recovery |
+| Sat | Full Body A | Quads, chest, back, hamstrings |
+| Sun | Full Body B | Glutes, back, chest, shoulders |
 
-Missed a day? Do the next workout in order: Upper A → Lower A → Upper B → Lower B.
+Missed a day? Do the next workout in order: Full Body A → Full Body B.
 
 ## Workouts (sets × reps)
 
-**Upper A** – Chest Press 3×8–12 · Lat Pulldown 3×8–12 · Shoulder Press 3×8–12 · Seated Row 3×10–12 · Pec Fly 2×12–15 · Cable Triceps Pushdown 2×12–15 · Biceps Curl 2×12–15 · Elliptical 10 min
+**Full Body A (Sat)** – Leg Press 3×8–12 · Chest Press 3×8–12 · Lat Pulldown 3×8–12 · Seated Leg Curl 3×10–12 · Shoulder Press 2×10–12 · Cable Triceps Pushdown 2×12–15 · Calf Raise 2×12–15 · Ab Crunch 2×12–15 · Elliptical 10 min
 
-**Lower A** – Leg Press 3×8–12 · Seated Leg Curl 3×10–12 · Leg Extension 3×10–15 · Hip Abductor 2×15–20 · Calf Raise 3×12–15 · Ab Crunch 3×12–15 · Bike 10 min
-
-**Upper B** – Iso-Lateral Incline Press 3×8–10 · Iso-Lateral Row 3×8–12 · Assisted Pull-up 3×6–10 · Lateral Raise 3×12–15 · Rear Delt Fly 2×12–15 · Triceps Extension 2×10–12 · Cable Curl 2×10–12 · StairClimber 10 min
-
-**Lower B** – Hack Squat 3×8–10 · Glute Drive 3×8–12 · Lying Leg Curl 3×10–12 · Hip Adductor 2×12–15 · Back Extension 3×10–15 · Captain's Chair 3×8–12 · Treadmill incline walk 15 min
+**Full Body B (Sun)** – Glute Drive 3×8–12 · Iso-Lateral Row 3×8–12 · Iso-Lateral Incline Press 3×8–10 · Leg Extension 2×12–15 · Lateral Raise 2×12–15 · Cable Curl 2×10–12 · Back Extension 2×10–15 · Captain's Chair 2×8–12 · Treadmill incline walk 15 min
 
 ## The 8-week cycle
 
@@ -42,7 +36,7 @@ Then start cycle 2 from week 1 with your new weights.
 
 1. Pick a weight that lands you inside the rep range.
 2. Each session, try to add a rep.
-3. When every set hits the top of the range, add 5 lb (10 lb on leg press, hack squat, glute drive, Smith). The app does this math for you.
+3. When every set hits the top of the range, add 5 lb (10 lb on leg press, glute drive, hack squat, Smith). The app does this math for you.
 4. Assisted pull-up works backwards: lower the assist weight.
 
 ## Habits
@@ -51,3 +45,5 @@ Then start cycle 2 from week 1 with your new weights.
 - Rest ~90 s between sets.
 - Lift in ~1 s, lower in 2–3 s.
 - Form breaks down → that set is over.
+- Sunday sore from Saturday? Use the same weights as last time rather than pushing for more.
+- Midweek: a 20–30 min walk on a couple of weekdays helps recovery and conditioning.
