@@ -24,7 +24,7 @@ Crunch doesn't publish an equipment inventory for individual clubs. The list her
 It's a single static file: `index.html`. No build step.
 
 - **Locally:** open `index.html` in a browser.
-- **GitHub Pages:** push this repo, then Settings → Pages → Deploy from branch → `main` / root.
+- **GitHub Pages:** live at https://jfernandez93.github.io/crunch-lakewood-tracker/ — the workflow in `.github/workflows/pages.yml` redeploys on every push to `main` (Settings → Pages → Source must be "GitHub Actions").
 
 When opened as a Claude artifact, data syncs to your Claude account. Anywhere else (GitHub Pages, local file) it saves in that browser's local storage.
 
