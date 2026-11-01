@@ -243,7 +243,7 @@ const RAW=[
   ['assist-pullup','Assisted Pull-up / Dip','back','Selectorized',['lat-pulldown'],'Weight is assistance. Lower number = harder.'],
   ['cable-row','Cable Low Row','back','Cable',['seated-row'],'V-handle, sit tall, row to belly button.'],
   ['back-ext','Back Extension (45°)','back','Bodyweight',[],'Hips on pad edge, hinge down, squeeze glutes up. Hold a plate to progress.'],
-  ['shoulder-press','Shoulder Press','shoulders','Selectorized',['db-shoulder'],'Handles at shoulder height, press up, don\'t shrug.'],
+  ['shoulder-press','Shoulder Press (Star Trac)','shoulders','Selectorized',['db-shoulder'],'Handles at shoulder height, press up, don\'t shrug.'],
   ['lateral-raise','Lateral Raise','shoulders','Selectorized',['cable-lateral'],'Elbows on pads, lead with elbows to shoulder height.'],
   ['rear-delt','Rear Delt Fly','shoulders','Selectorized',['cable-face-pull'],'Pec Fly unit, facing the pad. Arms wide, pinkies lead.'],
   ['cable-lateral','Cable Lateral Raise','shoulders','Cable',['lateral-raise'],'Low pulley, cross-body, raise to shoulder height.'],
@@ -364,9 +364,9 @@ const mach=id=>machines().find(m=>m.id===id)||{id,name:id,group:'func',kind:'Fre
 const isHere=id=>!(S.profile.machines&&S.profile.machines[id]&&S.profile.machines[id].off);
 const noteOf=id=>(S.profile.machines&&S.profile.machines[id]&&S.profile.machines[id].note)||'';
 const byDate=(a,b)=>String(b.date).localeCompare(String(a.date));
-// weight steps measured at Crunch Lakewood (Star Trac stacks move in 10 lb steps)
-const STEP={'seated-row':10};
-const incFor=id=>STEP[id]||(HEAVY.includes(id)?10:5);
+// weight steps at Crunch Lakewood: Star Trac stacks move in 10 lb steps (seen on Row and Shoulder Press)
+const STEP={'glute-drive':5};
+const incFor=id=>STEP[id]||(HEAVY.includes(id)||mach(id).kind==='Selectorized'?10:5);
 
 function weekInfo(){
   if(!S.profile.startDate) return {week:1,cycle:1};
@@ -591,7 +591,7 @@ function vPlan(){
   <section class="card pad prose">
     <h2 style="font-size:22px;text-transform:uppercase;margin-bottom:8px">How to progress</h2>
     <ul class="rules">
-      <li><b>Rep ranges.</b> When you hit the top of the range on every set, the app adds 5 lb next time (10 lb on leg press, hack squat, Smith). Otherwise it keeps the weight and you chase one more rep.</li>
+      <li><b>Rep ranges.</b> When you hit the top of the range on every set, the app adds weight next time: 10 lb on the Star Trac stack machines (their stacks move in 10 lb steps) and on leg press, hack squat and Smith, 5 lb on everything else. Otherwise it keeps the weight and you chase one more rep.</li>
       <li><b>Effort.</b> Finish most sets with 1–2 good reps left. Form breaks down? That set is over.</li>
       <li><b>Rest.</b> About 90 seconds between sets. The timer starts when you check off a set.</li>
       <li><b>Tempo.</b> Lift in about 1 second, lower in 2–3. Pause briefly at the squeeze.</li>
@@ -640,7 +640,7 @@ function guide(m,showPhoto){
   </div>`;
 }
 // photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
-const LAKEWOOD_PHOTOS={'glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
+const LAKEWOOD_PHOTOS={'shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
 const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}

@@ -15,11 +15,11 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 
 ## The plan (see `PLAN.md`)
 
-8-week full-body cycle, 2 days a week (Sat Full Body A, Sun Full Body B), double progression: hit the top of the rep range on every set, then add 5 lb (10 lb on leg press, hack squat, Smith). Week 4 is a deload, week 8 is a test week.
+8-week full-body cycle, 2 days a week (Sat Full Body A, Sun Full Body B), double progression: hit the top of the rep range on every set, then add weight (10 lb on Star Trac stacks, leg press, hack squat, Smith; 5 lb elsewhere). Week 4 is a deload, week 8 is a test week.
 
 ## About the machine list
 
-Crunch doesn't publish an equipment inventory for individual clubs, so the list started from a standard Crunch floor and is being corrected from photos taken at Lakewood. Confirmed so far: Star Trac Inspiration selectorized machines (Seated Row stack runs 10–260 lb in 10 lb steps), Nautilus Leverage plate-loaded machines (Iso-Lateral Row), a Booty Builder hip thrust, a Concept2 rower and a turf area with plyo boxes. Use the Machines tab to fix anything else that differs.
+Crunch doesn't publish an equipment inventory for individual clubs, so the list started from a standard Crunch floor and is being corrected from photos taken at Lakewood. Confirmed so far: Star Trac Inspiration selectorized machines (stacks move in 10 lb steps: Row 10–260 lb, Shoulder Press 10–200 lb), Nautilus Leverage plate-loaded machines (Iso-Lateral Row), a Booty Builder hip thrust, a Concept2 rower and a turf area with plyo boxes. Use the Machines tab to fix anything else that differs.
 
 ## Run / host it
 
