@@ -242,8 +242,8 @@ const RAW=[
   ['smith','Smith Machine','chest','Plate-loaded',['chest-press','db-bench'],'Works for incline press or squats. Log plates only.'],
   ['db-bench','Dumbbell Bench Press','chest','Free weight',['chest-press'],'Log the weight of one dumbbell.'],
   ['lat-pulldown','Lat Pulldown','back','Selectorized',['assist-pullup','cable-row'],'Thighs under pad, pull bar to upper chest, lean back slightly.'],
-  ['seated-row','Seated Row','back','Selectorized',['iso-row','cable-row'],'Chest on pad, pull elbows back, shoulder blades together.'],
-  ['iso-row','Iso-Lateral Row','back','Plate-loaded',['seated-row','cable-row'],'Plate-loaded. Chest on pad, one arm at a time if you like.'],
+  ['seated-row','Seated Row (Star Trac)','back','Selectorized',['iso-row','cable-row'],'Stack goes in 10 lb steps. Chest on pad, pull elbows back, shoulder blades together.'],
+  ['iso-row','Iso-Lateral Row (Nautilus Leverage)','back','Plate-loaded',['seated-row','cable-row'],'Plate-loaded. Load both arms evenly. Chest on pad, feet on the footplate, one arm at a time if you like.'],
   ['assist-pullup','Assisted Pull-up / Dip','back','Selectorized',['lat-pulldown'],'Weight is assistance. Lower number = harder.'],
   ['cable-row','Cable Low Row','back','Cable',['seated-row'],'V-handle, sit tall, row to belly button.'],
   ['back-ext','Back Extension (45°)','back','Bodyweight',[],'Hips on pad edge, hinge down, squeeze glutes up. Hold a plate to progress.'],
@@ -293,8 +293,8 @@ const TIPS={
   'smith':['Depends on the lift: chest, legs or shoulders','Set the safety stops just below your lowest point first. Twist the bar to hook and unhook it.','The bar runs on a fixed track, so move straight up and down. For squats, put your feet slightly in front of the bar.','Skipping the safety stops. Feet directly under the bar on squats, which strains the knees.'],
   'db-bench':['Chest, front shoulders, triceps','Sit with the dumbbells on your thighs, lie back, and kick them up one at a time.','Lower to mid-chest with elbows about 45° from your body, then press up and slightly in.','Flaring elbows straight out to the sides. Dropping the dumbbells at the end; bring them back to your thighs.'],
   'lat-pulldown':['Lats, upper back, biceps','Thigh pad snug so you stay seated. Grip slightly wider than your shoulders.','Lean back a little, pull the bar to your upper chest by driving your elbows down, and let it rise all the way.','Pulling behind your neck. Swinging your torso to move the weight.'],
-  'seated-row':['Middle back, lats, rear shoulders, biceps','Set the chest pad so your arms are fully extended at the start. Handles at lower-chest height.','Pull your elbows back past your torso, squeeze your shoulder blades together, and return slowly.','Leaning back off the chest pad. Shrugging toward your ears.'],
-  'iso-row':['Middle back, lats, rear shoulders, biceps','Plate-loaded. Chest against the pad, handles reachable with arms straight. Load both sides evenly.','Row both handles or one at a time, elbows close to your body, squeeze at the back.','Twisting your torso to finish a one-arm rep. Jerking the weight.'],
+  'seated-row':['Middle back, lats, rear shoulders, biceps','Seat height so the handles line up with your lower chest. Set the chest pad so you can just reach the handles with arms straight. Feet on the footplate. The stack goes 10–260 lb in 10 lb steps.','Pull your elbows back past your torso, squeeze your shoulder blades together, and return slowly until your arms are straight.','Leaning back off the chest pad. Shrugging toward your ears. Letting the stack slam.'],
+  'iso-row':['Middle back, lats, rear shoulders, biceps','Load the same plates on both arms. Set the chest pad with its pop-pin so your arms are fully stretched when you grab the handles, and adjust the seat so your chest sits on the middle of the pad. Feet on the footplate.','Row both handles back with elbows close to your body, squeeze 1 s, and return slowly. Each arm moves on its own, so you can also row one side at a time.','Lifting your chest off the pad to heave the weight. Twisting your torso on one-arm reps. Letting the plates crash down.'],
   'assist-pullup':['Lats, upper back, biceps (pull-up). Chest and triceps (dip)','The pin sets how much help you get: more weight means easier. Kneel or stand on the platform and grip the handles.','Pull until your chin passes the handles, then lower all the way under control.','Picking too little help and doing half reps. Dropping down fast.'],
   'cable-row':['Middle back, lats, biceps','Low pulley with a V-handle. Feet on the platform, knees slightly bent.','Sit tall and row the handle to your belly button, pause, and extend your arms fully.','Rocking back and forth to move the weight. Rounding your lower back.'],
   'back-ext':['Lower back, glutes, hamstrings','Set the pad just below your hip bones so you can hinge freely. Heels locked under the rollers.','Hinge down with a flat back, then rise until your body is a straight line and squeeze your glutes.','Arching back past straight at the top. Dropping down fast.'],
@@ -368,7 +368,9 @@ const mach=id=>machines().find(m=>m.id===id)||{id,name:id,group:'func',kind:'Fre
 const isHere=id=>!(S.profile.machines&&S.profile.machines[id]&&S.profile.machines[id].off);
 const noteOf=id=>(S.profile.machines&&S.profile.machines[id]&&S.profile.machines[id].note)||'';
 const byDate=(a,b)=>String(b.date).localeCompare(String(a.date));
-const incFor=id=>HEAVY.includes(id)?10:5;
+// weight steps measured at Crunch Lakewood (Star Trac stacks move in 10 lb steps)
+const STEP={'seated-row':10};
+const incFor=id=>STEP[id]||(HEAVY.includes(id)?10:5);
 
 function weekInfo(){
   if(!S.profile.startDate) return {week:1,cycle:1};
@@ -550,7 +552,7 @@ function vMachines(){
   const all=machines(),gs=GROUPS.filter(g=>S.gfilter==='all'||g.id===S.gfilter);
   const here=all.filter(m=>isHere(m.id)).length;
   return `
-  <section><p class="prose muted" style="margin:0 0 12px">Tap any machine for how-to tips and to add your own photo of it. Crunch doesn't publish a machine-by-machine list for Lakewood, so this is the standard Crunch floor (Life Fitness and Hammer Strength). Switch off anything you don't see, add what's missing, and note your seat and pin settings. <b class="num" style="color:var(--ink)">${here}</b> of ${all.length} marked here.</p>
+  <section><p class="prose muted" style="margin:0 0 12px">Tap any machine for how-to tips and to add your own photo of it. Crunch doesn't publish a machine-by-machine list for Lakewood, so this list started from a standard Crunch floor and is being corrected from photos taken at Lakewood (Star Trac Inspiration stack machines, Nautilus Leverage plate-loaded). Switch off anything you don't see, add what's missing, and note your seat and pin settings. <b class="num" style="color:var(--ink)">${here}</b> of ${all.length} marked here.</p>
   <div class="filters" role="group" aria-label="Filter by group"><button type="button" data-act="gf" data-v="all" aria-pressed="${S.gfilter==='all'}">All</button>${GROUPS.map(g=>`<button type="button" data-act="gf" data-v="${g.id}" aria-pressed="${S.gfilter===g.id}">${plate(g.id)}${esc(g.name)}</button>`).join('')}</div></section>
   ${gs.map(g=>{const ms=all.filter(m=>m.group===g.id);if(!ms.length)return '';return `
   <section class="g-${g.id}">
@@ -630,7 +632,7 @@ function vHistory(){
 /* ---------- machine guide & photos ---------- */
 function guide(m,showPhoto){
   const t=TIPS[m.id],url=photoOf(m.id),own=PH.has(m.id),id=esc(m.id);
-  const brand=/\(/.test(m.name)?'':m.kind==='Plate-loaded'?'Hammer Strength ':m.kind==='Selectorized'?'Life Fitness ':'';
+  const brand=/\(/.test(m.name)?'':m.kind==='Plate-loaded'?'Nautilus Leverage ':m.kind==='Selectorized'?'Star Trac Inspiration ':'';
   const img='https://www.google.com/search?tbm=isch&q='+encodeURIComponent(brand+m.name);
   const vid='https://www.youtube.com/results?search_query='+encodeURIComponent(m.name+' proper form');
   const photoCtl=own?`<button type="button" class="linkbtn" data-act="photo-pick" data-v="${id}">Retake photo</button><button type="button" class="linkbtn" data-act="photo-del" data-v="${id}">Remove photo</button>`:url&&photosOK?`<button type="button" class="linkbtn" data-act="photo-pick" data-v="${id}">Use my own photo</button>`:'';
@@ -642,7 +644,7 @@ function guide(m,showPhoto){
   </div>`;
 }
 // photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
-const LAKEWOOD_PHOTOS={'glute-drive':'img/glute-drive.jpg'};
+const LAKEWOOD_PHOTOS={'glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
 const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}

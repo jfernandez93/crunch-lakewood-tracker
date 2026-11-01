@@ -19,7 +19,7 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 
 ## About the machine list
 
-Crunch doesn't publish an equipment inventory for individual clubs. The list here is the standard Crunch floor – Crunch names Life Fitness (which includes Hammer Strength) as its preferred U.S. equipment supplier – so expect a close match, then use the Machines tab to fix anything that differs at Lakewood.
+Crunch doesn't publish an equipment inventory for individual clubs, so the list started from a standard Crunch floor and is being corrected from photos taken at Lakewood. Confirmed so far: Star Trac Inspiration selectorized machines (Seated Row stack runs 10–260 lb in 10 lb steps), Nautilus Leverage plate-loaded machines (Iso-Lateral Row), a Booty Builder hip thrust, a Concept2 rower and a turf area with plyo boxes. Use the Machines tab to fix anything else that differs.
 
 ## Run / host it
 
