@@ -10,6 +10,7 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 - **Your settings per machine** – save seat / pad / pin positions so you don't have to re-find them.
 - **Mark what's actually there** – toggle machines "Here / Not here" and add any the list is missing. The plan auto-substitutes.
 - **History** – every saved workout with sets, reps, weight and volume; sparklines of your top weight per machine.
+- **Backup** – Export saves your whole log as a `.json` file (on iPhone: Save to Files → iCloud Drive). Import restores it on a new phone or browser, adding workouts without deleting anything. Your workout data never goes to GitHub.
 
 ## The plan (see `PLAN.md`)
 

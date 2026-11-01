@@ -58,6 +58,9 @@ section+section{margin-top:22px}
 .btn.block{width:100%}
 .btn.big{font-family:var(--f-display);font-size:22px;text-transform:uppercase;letter-spacing:.03em;min-height:54px}
 .btn:disabled{opacity:.5;cursor:default}
+.btn{display:inline-flex;align-items:center;justify-content:center}
+.linkbtn{border:0;background:none;padding:0;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* group plate swatch */
 .plate{width:12px;height:12px;border-radius:50%;flex:none;background:var(--gc);box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--gc) 55%,var(--surface))}
@@ -286,8 +289,8 @@ function relDays(iso){const n=Math.round((dayStart(Date.now())-dayStart(iso))/86
 function fmtDate(iso,o){return new Date(iso).toLocaleDateString(undefined,o)}
 
 /* ---------- state ---------- */
-const defaultProfile=()=>({machines:{},custom:[],startDate:null,active:null,activeRev:0});
-const S={tab:'today',profile:defaultProfile(),sessions:[],mode:'local',gfilter:'all',open:null,ask:null,rest:null,pick:null,swap:false};
+const defaultProfile=()=>({machines:{},custom:[],startDate:null,lastBackup:null,active:null,activeRev:0});
+const S={tab:'today',profile:defaultProfile(),sessions:[],mode:'local',gfilter:'all',open:null,ask:null,rest:null,pick:null,swap:false,importData:null};
 const machines=()=>BASE.concat((S.profile.custom||[]).map(c=>({...c,alts:[],cue:'',custom:true})));
 const mach=id=>machines().find(m=>m.id===id)||{id,name:id,group:'func',kind:'Free weight',alts:[],cue:''};
 const isHere=id=>!(S.profile.machines&&S.profile.machines[id]&&S.profile.machines[id].off);
@@ -409,7 +412,7 @@ function vToday(){
   </section>
   <section><div class="label">This week</div>${weekStrip()}</section>
   ${S.sessions.length?'':`<p class="foot">Tip: open Machines first and switch off anything you don't see on the floor. The plan swaps in an alternate automatically.</p>`}
-  <p class="foot">${S.mode==='account'?'Saved to your Claude account. Works on any device you sign in on.':'Saved on this device.'}</p>`;
+  <p class="foot">${S.mode==='account'?'Saved to your Claude account. Works on any device you sign in on.':`Saved in this browser only. Last backup: ${backupAgo()}.${S.sessions.length?' <button type="button" class="linkbtn" data-act="export">Back up now</button>':''}`}</p>`;
 }
 
 function vActive(a){
@@ -535,7 +538,7 @@ function vHistory(){
   const m1=new Date(now.getFullYear(),now.getMonth(),1);
   const wk=S.sessions.filter(s=>new Date(s.date)>=mon).length;
   const setsMo=S.sessions.filter(s=>new Date(s.date)>=m1).reduce((t,s)=>t+s.entries.reduce((u,e)=>u+e.rows.length,0),0);
-  if(!S.sessions.length) return `<section class="card empty"><h2 style="font-size:26px;text-transform:uppercase;color:var(--ink)">No workouts yet</h2><p>Finished workouts land here with every set you logged. Start your first one from Today.</p><button type="button" class="btn primary" data-act="tab" data-v="today">Go to Today</button></section>`;
+  if(!S.sessions.length) return `<section class="card empty"><h2 style="font-size:26px;text-transform:uppercase;color:var(--ink)">No workouts yet</h2><p>Finished workouts land here with every set you logged. Start your first one from Today.</p><button type="button" class="btn primary" data-act="tab" data-v="today">Go to Today</button></section>${vBackup()}`;
   return `
   <section class="stats"><div><b class="num">${wk}</b><span class="label">This week</span></div><div><b class="num">${setsMo}</b><span class="label">Sets this month</span></div><div><b class="num">${S.sessions.length}</b><span class="label">All workouts</span></div></section>
   <section class="card"><ul class="hist">${S.sessions.map(s=>{const open=S.open===s.id,sets=s.entries.reduce((t,e)=>t+e.rows.length,0),vol=s.entries.reduce((t,e)=>mach(e.m).kind==='Cardio'?t:t+e.rows.reduce((u,r)=>u+(+r.w||0)*(+r.r||0),0),0);return `
@@ -545,7 +548,71 @@ function vHistory(){
       <span class="muted" aria-hidden="true">${open?'−':'+'}</span></button>
       ${open?`<div class="detail"><table><tbody>${s.entries.map(e=>{const mm=mach(e.m),c=mm.kind==='Cardio';return `<tr><td><span class="row">${plate(mm.group)}${esc(mm.name)}</span></td><td>${e.rows.map(r=>c?`L${esc(r.w)} · ${esc(r.r)} min`:`${esc(r.w||'BW')}×${esc(r.r)}`).join(', ')}</td></tr>`}).join('')}</tbody></table>
         <div class="row" style="margin-top:10px;justify-content:flex-end">${S.ask==='del:'+s.id?`<span class="muted" style="font-size:13px">Delete for good?</span><button type="button" class="btn" data-act="ask-cancel">Cancel</button><button type="button" class="btn danger" data-act="del" data-v="${esc(s.id)}">Delete</button>`:`<button type="button" class="btn ghost" data-act="del-ask" data-v="${esc(s.id)}">Delete workout</button>`}</div></div>`:''}
-    </li>`}).join('')}</ul></section>`;
+    </li>`}).join('')}</ul></section>
+  ${vBackup()}`;
+}
+
+/* ---------- backup: export / import ---------- */
+const backupAgo=()=>S.profile.lastBackup?relDays(S.profile.lastBackup):'never';
+function vBackup(){
+  const d=S.importData,have=new Set(S.sessions.map(s=>s.id)),fresh=d?d.sessions.filter(s=>!have.has(s.id)).length:0;
+  return `
+  <section class="card pad stack" id="backup">
+    <div>
+      <h2 style="font-size:22px;text-transform:uppercase">Backup</h2>
+      <p class="muted" style="margin:6px 0 0;font-size:14px;max-width:60ch">Your log is stored in this browser only. Export saves a copy as a file. On iPhone, pick <b>Save to Files → iCloud Drive</b>. Import restores a copy on a new phone or browser.</p>
+    </div>
+    <div class="row" style="flex-wrap:wrap">
+      <button type="button" class="btn primary" data-act="export">Export log</button>
+      <button type="button" class="btn" data-act="import-pick">Import from file</button>
+      <input type="file" id="import-file" class="vh" accept=".json,application/json" tabindex="-1" aria-hidden="true">
+    </div>
+    <span class="label">Last backup: ${backupAgo()}</span>
+    ${d?`<div class="card pad confirm stack">
+      <b>Backup from ${esc(d.exportedAt?fmtDate(d.exportedAt,{month:'short',day:'numeric',year:'numeric'}):'an unknown date')}</b>
+      <p style="margin:0;font-size:14px">${d.sessions.length} workout${d.sessions.length===1?'':'s'} in the file, ${fresh} not on this ${'phone'}. Importing adds those workouts and brings in the file's machine setup and notes. Nothing already here is deleted${S.profile.active?', and your workout in progress stays open':''}.</p>
+      <div class="row"><button type="button" class="btn primary" data-act="import-go">Import</button><button type="button" class="btn" data-act="import-cancel">Cancel</button></div>
+    </div>`:''}
+  </section>`;
+}
+async function exportLog(){
+  const data={app:'lakewood-lift-log',version:1,exportedAt:new Date().toISOString(),profile:{...S.profile,active:null,activeRev:0},sessions:S.sessions};
+  const name='lift-log-'+new Date().toISOString().slice(0,10)+'.json';
+  const blob=new Blob([JSON.stringify(data,null,1)],{type:'application/json'});
+  try{
+    const file=new File([blob],name,{type:'application/json'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Lakewood Lift Log backup'});markBackup();return}
+  }catch(e){if(e&&e.name==='AbortError')return}
+  try{
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);markBackup();
+  }catch(e){toast('This browser blocked the download.')}
+}
+function markBackup(){S.profile.lastBackup=new Date().toISOString();saveProfile();render();toast('Backup saved')}
+function parseBackup(txt){
+  let d;try{d=JSON.parse(txt)}catch(e){return null}
+  if(!d||d.app!=='lakewood-lift-log'||!d.profile||typeof d.profile!=='object'||!Array.isArray(d.sessions))return null;
+  const okId=x=>typeof x==='string'&&/^[A-Za-z0-9_-]{1,60}$/.test(x),str=x=>typeof x==='string'?x:'';
+  const sessions=d.sessions.filter(s=>s&&okId(s.id)&&typeof s.date==='string'&&!isNaN(Date.parse(s.date))&&Array.isArray(s.entries)).map(s=>({
+    id:s.id,day:str(s.day),date:s.date,started:str(s.started)||s.date,durationMin:Math.max(0,Math.round(+s.durationMin||0)),
+    entries:s.entries.filter(e=>e&&typeof e.m==='string'&&Array.isArray(e.rows)).map(e=>({m:e.m,plan:str(e.plan)||e.m,lo:+e.lo||0,hi:+e.hi||0,
+      rows:e.rows.filter(r=>r&&typeof r==='object').map(r=>({w:str(String(r.w??'')),r:str(String(r.r??'')),done:true}))}))}));
+  const p=d.profile,m=p.machines&&typeof p.machines==='object'&&!Array.isArray(p.machines)?p.machines:{};
+  const machinesIn={};for(const k of Object.keys(m)){const v=m[k]||{};machinesIn[k]={off:!!v.off,note:str(v.note).slice(0,80)}}
+  const custom=Array.isArray(p.custom)?p.custom.filter(c=>c&&okId(c.id)&&typeof c.name==='string').map(c=>({id:c.id,name:c.name.slice(0,60),group:GROUPS.some(g=>g.id===c.group)?c.group:'func',kind:KINDS.includes(c.kind)?c.kind:'Free weight'})):[];
+  return {exportedAt:typeof d.exportedAt==='string'&&!isNaN(Date.parse(d.exportedAt))?d.exportedAt:null,profile:{machines:machinesIn,custom,startDate:typeof p.startDate==='string'&&!isNaN(Date.parse(p.startDate))?p.startDate:null},sessions};
+}
+function applyImport(){
+  const d=S.importData;if(!d)return;
+  const have=new Set(S.sessions.map(s=>s.id)),add=d.sessions.filter(s=>!have.has(s.id)),P=S.profile;
+  S.sessions=[...S.sessions,...add].sort(byDate);
+  S.profile={...P,machines:{...P.machines,...d.profile.machines},
+    custom:[...(P.custom||[]).filter(c=>!d.profile.custom.some(x=>x.id===c.id)),...d.profile.custom],
+    startDate:[P.startDate,d.profile.startDate].filter(Boolean).sort()[0]||null};
+  saveProfile();
+  if(R)for(const s of add){const b=clone(s);queue(()=>R.c.doc(s.id).set(b))}
+  S.importData=null;render();toast(`Imported ${add.length} workout${add.length===1?'':'s'}`);
 }
 
 /* ---------- actions ---------- */
@@ -603,6 +670,10 @@ document.addEventListener('click',e=>{
     case 'gf':S.gfilter=v;render();break;
     case 'open':S.open=S.open===v?null:v;S.ask=null;render();break;
     case 'del-ask':S.ask='del:'+v;render();break;
+    case 'export':exportLog();break;
+    case 'import-pick':{const f=document.getElementById('import-file');if(f){f.value='';f.click()}break}
+    case 'import-go':applyImport();break;
+    case 'import-cancel':S.importData=null;render();break;
     case 'del':dropSession(v);S.ask=null;S.open=null;render();toast('Workout deleted');break;
   }
 });
@@ -612,6 +683,8 @@ main.addEventListener('input',e=>{
 });
 main.addEventListener('change',e=>{
   const t=e.target;
+  if(t.id==='import-file'){const f=t.files&&t.files[0];if(!f)return;
+    f.text().then(txt=>{const d=parseBackup(txt);if(!d){toast('That file isn\'t a Lakewood Lift Log backup.');return}S.importData=d;render();const b=document.getElementById('backup');if(b)b.scrollIntoView({block:'start'})}).catch(()=>toast('Couldn\'t read that file.'));return}
   if(t.dataset.f&&S.profile.active)saveActive();
   if(t.dataset.note){const id=t.dataset.note,cur=S.profile.machines[id]||{};S.profile.machines[id]={...cur,note:t.value.trim().slice(0,80)};saveProfile()}
 });
