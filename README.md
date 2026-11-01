@@ -7,6 +7,7 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 - **Machines grouped like bumper plates** – Chest (red), Back (blue), Shoulders (green), Arms (grey), Legs & Glutes (yellow), Core (purple), Cardio (teal), HIITZone & Free Weights (brown).
 - **"Now on" tracking** – during a workout the app shows the machine you're on, your target, what you did last time, and a suggested weight. Check off each set and it starts a 90 s rest timer; finish a machine and it moves you to the next.
 - **Machine taken?** – swap to an alternate in the same group with one tap.
+- **Machine guide** – tap any machine for what it works, how to set it up, how to do the movement and what to avoid, plus links to photos and a video demo. Add your own photo of each machine at Lakewood so you can spot the right one; photos stay on your phone and are included in Export backups.
 - **Your settings per machine** – save seat / pad / pin positions so you don't have to re-find them.
 - **Mark what's actually there** – toggle machines "Here / Not here" and add any the list is missing. The plan auto-substitutes.
 - **History** – every saved workout with sets, reps, weight and volume; sparklines of your top weight per machine.
