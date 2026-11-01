@@ -236,7 +236,8 @@ const GROUPS=[
 // [id, name, group, kind, alternates, cue]
 const RAW=[
   ['chest-press','Chest Press (Star Trac)','chest','Selectorized',['incline-press','smith','db-bench'],'Stack goes in 15 lb steps. Handles at mid-chest. Press out without locking elbows, 2 s back.'],
-  ['incline-press','Iso-Lateral Incline Press','chest','Plate-loaded',['chest-press','smith'],'Plate-loaded. Log total plates on both sides.'],
+  ['incline-press','Iso-Lateral Incline Press','chest','Plate-loaded',['impact-chest','chest-press','smith'],'Plate-loaded. Log total plates on both sides.'],
+  ['impact-chest','Chest Press (Star Trac Impact)','chest','Selectorized',['chest-press','incline-press'],'Older Star Trac model, 10 lb steps. Handles at mid-chest, press out, 2 s back.'],
   ['pec-fly','Pec Fly','chest','Selectorized',['cable-cross'],'Same unit as Rear Delt. Face out, soft elbows, squeeze 1 s.'],
   ['cable-cross','Cable Crossover','chest','Cable',['pec-fly'],'Pulleys at shoulder height, step forward, hands meet at chest.'],
   ['smith','Smith Machine','chest','Plate-loaded',['chest-press','db-bench'],'Works for incline press or squats. Log plates only.'],
@@ -287,6 +288,7 @@ const BASE=RAW.map(([id,name,group,kind,alts,cue])=>({id,name,group,kind,alts,cu
 // machine id -> [works, set up, do, avoid]
 const TIPS={
   'chest-press':['Chest, front shoulders, triceps','Seat height so the handles line up with the middle of your chest. Set the start-position dial (1–5, red pop-pin on the arm) so you feel a light chest stretch at the start, and save that number in your notes. Back flat on the pad. The stack goes 15–300 lb in 15 lb steps.','Press out in a smooth line, stop just short of locking your elbows, and take 2–3 s to return until you feel a light chest stretch.','Shoulders rolling forward off the pad. Setting the dial so far back that it strains your shoulders. Letting the weight stack slam between reps.'],
+  'impact-chest':['Chest, front shoulders, triceps','Adjust the seat so the handles line up with the middle of your chest. Back flat against the pad. The stack goes 10–260 lb in 10 lb steps.','Press the handles out in a smooth line, stop just short of locking your elbows, and take 2–3 s to return until you feel a light chest stretch.','Shoulders rolling forward off the pad. Arching your back off the pad to push more weight.'],
   'incline-press':['Upper chest, front shoulders, triceps','Seat so the handles start just below your collarbone. Load the same plates on both sides.','Drive up and slightly inward, then lower under control until your hands are near chest level.','Arching your lower back off the pad. Bouncing out of the bottom.'],
   'pec-fly':['Chest','Seat so the handles are at chest height. Set the arm start position for a light stretch, not a strain. On a combo unit, set the lever to Pec Fly.','Keep a soft, fixed bend in your elbows and bring your hands together like a hug. Squeeze 1 s, open slowly.','Bending and straightening your elbows, which turns it into a press. Going past a comfortable stretch.'],
   'cable-cross':['Chest','Set both pulleys at shoulder height, a handle in each hand, one step forward with a staggered stance.','Sweep your hands together in front of your chest with soft elbows, then return slowly.','Leaning far forward to use bodyweight. Shrugging your shoulders.'],
@@ -339,7 +341,7 @@ const KINDS=['Selectorized','Plate-loaded','Cable','Free weight','Bodyweight','C
 // day key -> [machine, sets, repLow, repHigh]   (cardio: sets=1, reps = minutes)
 const DAYS={
   A:{name:'Full Body A',sub:'Quads, chest, back, hamstrings',items:[['leg-press',3,8,12],['chest-press',3,8,12],['lat-pulldown',3,8,12],['seated-curl',3,10,12],['shoulder-press',2,10,12],['triceps-pushdown',2,12,15],['calf',2,12,15],['ab-crunch',2,12,15]]},
-  B:{name:'Full Body B',sub:'Glutes, back, chest, shoulders',items:[['glute-drive',3,8,12],['seated-row',3,8,12],['incline-press',3,8,10],['leg-ext',2,12,15],['lateral-raise',2,12,15],['cable-curl',2,10,12],['back-ext',2,10,15],['captain',2,8,12]]},
+  B:{name:'Full Body B',sub:'Glutes, back, chest, shoulders',items:[['glute-drive',3,8,12],['seated-row',3,8,12],['impact-chest',3,10,12],['leg-ext',2,12,15],['lateral-raise',2,12,15],['cable-curl',2,10,12],['back-ext',2,10,15],['captain',2,8,12]]},
 };
 const ORDER=['A','B'];
 const SCHEDULE=[['Mon',null],['Tue',null],['Wed',null],['Thu',null],['Fri',null],['Sat','A'],['Sun','B']];
@@ -644,7 +646,7 @@ function guide(m,showPhoto){
   </div>`;
 }
 // photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
-const LAKEWOOD_PHOTOS={'chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
+const LAKEWOOD_PHOTOS={'impact-chest':'img/impact-chest.jpg','chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
 const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}

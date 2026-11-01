@@ -18,7 +18,7 @@ Missed a day? Do the next workout in order: Full Body A → Full Body B.
 
 **Full Body A (Sat)** – Leg Press 3×8–12 · Chest Press (Star Trac) 3×8–12 · Lat Pulldown 3×8–12 · Seated Leg Curl 3×10–12 · Shoulder Press (Star Trac) 2×10–12 · Cable Triceps Pushdown 2×12–15 · Calf Raise 2×12–15 · Ab Crunch 2×12–15
 
-**Full Body B (Sun)** – Hip Thrust (Booty Builder) 3×8–12 · Seated Row (Star Trac) 3×8–12 · Iso-Lateral Incline Press 3×8–10 · Leg Extension 2×12–15 · Lateral Raise 2×12–15 · Cable Curl 2×10–12 · Back Extension 2×10–15 · Captain's Chair 2×8–12
+**Full Body B (Sun)** – Hip Thrust (Booty Builder) 3×8–12 · Seated Row (Star Trac) 3×8–12 · Chest Press (Star Trac Impact) 3×10–12 · Leg Extension 2×12–15 · Lateral Raise 2×12–15 · Cable Curl 2×10–12 · Back Extension 2×10–15 · Captain's Chair 2×8–12
 
 ## The 8-week cycle
 
