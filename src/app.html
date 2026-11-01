@@ -60,7 +60,7 @@ section+section{margin-top:22px}
 .btn:disabled{opacity:.5;cursor:default}
 .btn{display:inline-flex;align-items:center;justify-content:center}
 .linkbtn{border:0;background:none;padding:0;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
-.nowphoto{width:100%;max-width:100%;aspect-ratio:16/9;max-height:180px;object-fit:cover;border-radius:8px;display:block;background:var(--sunk)}
+.nowphoto{width:100%;max-width:100%;aspect-ratio:16/9;max-height:180px;object-fit:cover;object-position:center 22%;border-radius:8px;display:block;background:var(--sunk)}
 .mphoto{margin:0}.mphoto img{width:100%;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;background:var(--sunk)}
 .photo-add{border:1.5px dashed var(--line);background:var(--sunk);border-radius:8px;padding:14px;text-align:left;font-weight:600;width:100%}
 .photo-add small{display:block;font-weight:400;color:var(--muted);margin-top:2px}
@@ -261,7 +261,7 @@ const RAW=[
   ['lying-curl','Lying Leg Curl','legs','Selectorized',['seated-curl'],'Hips pressed down, curl to glutes.'],
   ['hip-abd','Hip Abductor','legs','Selectorized',[],'Pads outside knees, push out, slow return.'],
   ['hip-add','Hip Adductor','legs','Selectorized',[],'Pads inside knees, squeeze in, slow return.'],
-  ['glute-drive','Glute Drive / Hip Thrust','legs','Plate-loaded',['smith'],'Belt across hips, drive up and squeeze 1 s.'],
+  ['glute-drive','Hip Thrust (Booty Builder)','legs','Selectorized',['smith'],'Set seat and bench from the height chart on the placard. Clip the hip belt, drive through heels, squeeze 1 s.'],
   ['calf','Calf Raise','legs','Selectorized',['leg-press'],'Full stretch at the bottom, pause at the top.'],
   ['squat-rack','Squat Rack','legs','Free weight',['smith','hack-squat'],'Log bar plus plates.'],
   ['ab-crunch','Ab Crunch','core','Selectorized',['cable-crunch'],'Curl ribs toward hips, don\'t pull with arms.'],
@@ -312,7 +312,7 @@ const TIPS={
   'lying-curl':['Hamstrings','Lie face down, knees just past the end of the bench, roller just above your heels.','Curl your heels toward your glutes, then lower slowly.','Hips lifting off the bench.'],
   'hip-abd':['Outer hips (glute medius)','Pads on the outside of your knees. Set the start width so you feel only a light stretch.','Push your knees apart, pause, and return slowly.','Letting the weight snap back.'],
   'hip-add':['Inner thighs','Pads on the inside of your knees. Set the start width to a comfortable stretch only.','Squeeze your legs together, pause, and return slowly.','Setting the start too wide.'],
-  'glute-drive':['Glutes, hamstrings','Upper back against the pad, belt or pad across your hips, feet flat about hip-width so your shins are vertical at the top.','Drive your hips up until your body is straight from knees to shoulders. Squeeze 1 s.','Arching your lower back to finish. Pushing through your toes.'],
+  'glute-drive':['Glutes, hamstrings','Set the seat and bench numbers from the body-height chart on the placard and save them in your notes. Sit down and click the hip belt on, press your shoulders and upper back onto the bench, then put both feet on the footplate.','Drive through your heels until your hips are fully extended and your body is straight from knees to shoulders. Squeeze your glutes 1 s, lower under control. Hold the hip belt or the side handles for stability.','Arching your lower back to finish the rep. Throwing your head back; keep your chin tucked and eyes forward. Pushing through your toes.'],
   'calf':['Calves','Balls of your feet on the platform edge, heels free.','Lower your heels for a full stretch, rise as high as you can, and pause.','Bouncing. Short partial reps.'],
   'squat-rack':['Quads, glutes, back','Set the hooks at about chest height and the safety bars just below your bottom position.','Bar on your upper back, brace your core, sit down and back, then stand up.','Skipping the safety bars. Rounding your lower back. Ask a trainer for a form check first.'],
   'ab-crunch':['Abs','Seat height so the handles or pads sit at chest or shoulder level. Hook your feet.','Curl your ribs toward your hips while you exhale, then return slowly.','Pulling with your arms. Rocking with your hips.'],
@@ -345,7 +345,7 @@ const PHASES={1:['Calibrate','Find your working weights. End every set with abou
   5:['Build','Push the top of each rep range, then add weight.'],6:['Build','Push the top of each rep range, then add weight.'],7:['Build','Push the top of each rep range, then add weight.'],
   8:['Test','Last set on each machine: go to one rep short of failure. Next week starts cycle 2.']};
 const HOURS={1:'5:00 am – midnight',2:'Open 24 hours',3:'Open 24 hours',4:'Open 24 hours',5:'Midnight – 9:00 pm',6:'7:00 am – 7:00 pm',0:'7:00 am – 7:00 pm'};
-const HEAVY=['leg-press','hack-squat','glute-drive','sled','squat-rack','smith'];
+const HEAVY=['leg-press','hack-squat','sled','squat-rack','smith'];
 const REST_S=90;
 
 /* ---------- helpers ---------- */
@@ -504,10 +504,10 @@ function vActive(a){
   <section class="now g-${esc(m.group)}">
     <div class="band"><span>Now on · ${a.cur+1} of ${a.items.length}</span><span>${esc(GROUPS.find(g=>g.id===m.group)?.name||'')}</span></div>
     <div class="pad stack">
-      ${PH.has(m.id)?`<img class="nowphoto" src="${PH.get(m.id)}" alt="Your photo of the ${esc(m.name)}">`:''}
+      ${photoOf(m.id)?`<img class="nowphoto" src="${photoOf(m.id)}" alt="Photo of the ${esc(m.name)}">`:''}
       <div><h3>${esc(m.name)}</h3><div class="muted" style="font-size:13.5px">${esc(m.kind)} · target ${target(cur.rows.length,cur.lo,cur.hi,m)}${cur.m!==cur.plan?` · subbing for ${esc(mach(cur.plan).name)}`:''}</div></div>
       <div class="tip">${esc(sug.text)}${m.cue?`<div class="muted" style="margin-top:4px;font-size:13px">${esc(m.cue)}</div>`:''}</div>
-      <details class="how" data-how ${S.howOpen?'open':''}><summary>How to use it${PH.has(m.id)||!photosOK?'':' · add a photo'}</summary>${guide(m,false)}</details>
+      <details class="how" data-how ${S.howOpen?'open':''}><summary>How to use it${photoOf(m.id)||!photosOK?'':' · add a photo'}</summary>${guide(m,false)}</details>
       <div class="sets">${cur.rows.map((r,j)=>`
         <div class="set ${r.done?'done':''}">
           <span class="n">${j+1}</span>
@@ -553,7 +553,7 @@ function vMachines(){
     <div class="ghead"><h2>${esc(g.name)}</h2><span class="rule"></span><span class="label">${ms.length}</span></div>
     <ul class="mlist card">${ms.map(m=>{const tw=topWeights(m.id),last=tw[tw.length-1],best=tw.length?(m.id==='assist-pullup'?Math.min(...tw):Math.max(...tw)):null,u=m.kind==='Cardio'?'lvl':'lb';return `
       <li class="${isHere(m.id)?'':'off'}">
-        <button type="button" class="mbtn" data-act="mopen" data-v="${esc(m.id)}" aria-expanded="${S.mopen===m.id}">${PH.has(m.id)?`<img class="thumb" src="${PH.get(m.id)}" alt="">`:''}<span class="mn">${esc(m.name)}<small>${esc(m.kind)}${tw.length?` · last <span class="num">${last} ${u}</span> · best <span class="num">${best} ${u}</span>`:''}</small></span><span class="chev" aria-hidden="true">${S.mopen===m.id?'▲':'▼'}</span></button>
+        <button type="button" class="mbtn" data-act="mopen" data-v="${esc(m.id)}" aria-expanded="${S.mopen===m.id}">${photoOf(m.id)?`<img class="thumb" src="${photoOf(m.id)}" alt="">`:''}<span class="mn">${esc(m.name)}<small>${esc(m.kind)}${tw.length?` · last <span class="num">${last} ${u}</span> · best <span class="num">${best} ${u}</span>`:''}</small></span><span class="chev" aria-hidden="true">${S.mopen===m.id?'▲':'▼'}</span></button>
         <div class="mstat">${spark(tw)}<button type="button" class="toggle" data-act="here" data-v="${esc(m.id)}" aria-pressed="${isHere(m.id)}">${isHere(m.id)?'Here':'Not here'}</button>${m.custom?`<button type="button" class="toggle" data-act="del-custom" data-v="${esc(m.id)}" aria-label="Remove ${esc(m.name)}">Remove</button>`:''}</div>
         ${isHere(m.id)?`<label class="note"><input id="note-${esc(m.id)}" data-note="${esc(m.id)}" value="${esc(noteOf(m.id))}" placeholder="Seat / pin settings" aria-label="Settings for ${esc(m.name)}"></label>`:''}
         ${S.mopen===m.id?`<div class="mguide">${guide(m,true)}</div>`:''}
@@ -589,7 +589,7 @@ function vPlan(){
   <section class="card pad prose">
     <h2 style="font-size:22px;text-transform:uppercase;margin-bottom:8px">How to progress</h2>
     <ul class="rules">
-      <li><b>Rep ranges.</b> When you hit the top of the range on every set, the app adds 5 lb next time (10 lb on leg press, hack squat, glute drive, Smith). Otherwise it keeps the weight and you chase one more rep.</li>
+      <li><b>Rep ranges.</b> When you hit the top of the range on every set, the app adds 5 lb next time (10 lb on leg press, hack squat, Smith). Otherwise it keeps the weight and you chase one more rep.</li>
       <li><b>Effort.</b> Finish most sets with 1–2 good reps left. Form breaks down? That set is over.</li>
       <li><b>Rest.</b> About 90 seconds between sets. The timer starts when you check off a set.</li>
       <li><b>Tempo.</b> Lift in about 1 second, lower in 2–3. Pause briefly at the squeeze.</li>
@@ -625,18 +625,21 @@ function vHistory(){
 
 /* ---------- machine guide & photos ---------- */
 function guide(m,showPhoto){
-  const t=TIPS[m.id],url=PH.get(m.id),id=esc(m.id);
-  const brand=m.kind==='Plate-loaded'?'Hammer Strength ':m.kind==='Selectorized'?'Life Fitness ':'';
+  const t=TIPS[m.id],url=photoOf(m.id),own=PH.has(m.id),id=esc(m.id);
+  const brand=/\(/.test(m.name)?'':m.kind==='Plate-loaded'?'Hammer Strength ':m.kind==='Selectorized'?'Life Fitness ':'';
   const img='https://www.google.com/search?tbm=isch&q='+encodeURIComponent(brand+m.name);
   const vid='https://www.youtube.com/results?search_query='+encodeURIComponent(m.name+' proper form');
-  const photoCtl=url?`<button type="button" class="linkbtn" data-act="photo-pick" data-v="${id}">Retake photo</button><button type="button" class="linkbtn" data-act="photo-del" data-v="${id}">Remove photo</button>`:'';
+  const photoCtl=own?`<button type="button" class="linkbtn" data-act="photo-pick" data-v="${id}">Retake photo</button><button type="button" class="linkbtn" data-act="photo-del" data-v="${id}">Remove photo</button>`:url&&photosOK?`<button type="button" class="linkbtn" data-act="photo-pick" data-v="${id}">Use my own photo</button>`:'';
   return `<div class="stack">
-    ${url&&showPhoto?`<figure class="mphoto"><img src="${url}" alt="Your photo of the ${esc(m.name)}"></figure>`:''}
+    ${url&&showPhoto?`<figure class="mphoto"><img src="${url}" alt="Photo of the ${esc(m.name)}"></figure>`:''}
     ${!url&&photosOK?`<button type="button" class="photo-add" data-act="photo-pick" data-v="${id}">+ Add a photo of this machine<small>Take it at the gym so you can spot the right one next time.</small></button>`:''}
     ${t?`<dl class="howto"><dt>Works</dt><dd>${esc(t[0])}</dd><dt>Set up</dt><dd>${esc(t[1])}</dd><dt>Do</dt><dd>${esc(t[2])}</dd><dt>Avoid</dt><dd>${esc(t[3])}</dd></dl>`:''}
     <div class="links"><a href="${img}" target="_blank" rel="noopener">Photos online ↗</a><a href="${vid}" target="_blank" rel="noopener">Video demo ↗</a>${photoCtl}</div>
   </div>`;
 }
+// photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
+const LAKEWOOD_PHOTOS={'glute-drive':'img/glute-drive.jpg'};
+const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
 function idbTx(mode,fn){return new Promise((res,rej)=>{const t=phdb.transaction('photos',mode),q=fn(t.objectStore('photos'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})}

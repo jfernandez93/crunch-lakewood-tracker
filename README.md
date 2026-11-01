@@ -15,7 +15,7 @@ A phone-first workout tracker built around the machine floor at **Crunch Fitness
 
 ## The plan (see `PLAN.md`)
 
-8-week full-body cycle, 2 days a week (Sat Full Body A, Sun Full Body B), double progression: hit the top of the rep range on every set, then add 5 lb (10 lb on leg press, hack squat, glute drive, Smith). Week 4 is a deload, week 8 is a test week.
+8-week full-body cycle, 2 days a week (Sat Full Body A, Sun Full Body B), double progression: hit the top of the rep range on every set, then add 5 lb (10 lb on leg press, hack squat, Smith). Week 4 is a deload, week 8 is a test week.
 
 ## About the machine list
 
@@ -35,3 +35,4 @@ When opened as a Claude artifact, data syncs to your Claude account. Anywhere el
 - `index.html` – the app (built from `src/app.html`)
 - `src/app.html` – app source (body content; `build.sh` wraps it into a full page)
 - `PLAN.md` – the training plan in text form
+- `img/` – photos of machines taken at Crunch Lakewood, shown in the app by default
