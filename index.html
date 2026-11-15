@@ -270,7 +270,7 @@ const RAW=[
   ['calf','Calf Raise','legs','Selectorized',['leg-press'],'Full stretch at the bottom, pause at the top.'],
   ['squat-rack','Squat Rack','legs','Free weight',['smith','hack-squat'],'Log bar plus plates.'],
   ['ab-crunch','Ab Crunch','core','Selectorized',['cable-crunch'],'Curl ribs toward hips, don\'t pull with arms.'],
-  ['captain','Captain\'s Chair Knee Raise','core','Bodyweight',[],'Back on pad, raise knees above hips, no swinging.'],
+  ['captain','Captain\'s Chair Knee Raise (Star Trac tower)','core','Bodyweight',[],'Bodyweight only: log reps, leave weight blank. Back on pad, forearms on the arm pads, raise knees above hips.'],
   ['rotary-torso','Rotary Torso','core','Selectorized',[],'Turn from the waist, hips stay square.'],
   ['cable-crunch','Cable Crunch','core','Cable',['ab-crunch'],'Kneel, rope behind head, crunch elbows to thighs.'],
   ['treadmill','Treadmill','cardio','Cardio',['elliptical','stair'],'Incline walk: 3.0 mph at 8–12% incline. Log level as incline.'],
@@ -322,7 +322,7 @@ const TIPS={
   'calf':['Calves','Balls of your feet on the platform edge, heels free.','Lower your heels for a full stretch, rise as high as you can, and pause.','Bouncing. Short partial reps.'],
   'squat-rack':['Quads, glutes, back','Set the hooks at about chest height and the safety bars just below your bottom position.','Bar on your upper back, brace your core, sit down and back, then stand up.','Skipping the safety bars. Rounding your lower back. Ask a trainer for a form check first.'],
   'ab-crunch':['Abs','Seat height so the handles or pads sit at chest or shoulder level. Hook your feet.','Curl your ribs toward your hips while you exhale, then return slowly.','Pulling with your arms. Rocking with your hips.'],
-  'captain':['Lower abs, hip flexors','Back flat on the pad, forearms on the rests, hands on the grips.','Raise your knees above your hips with a slight pelvic tilt, then lower slowly.','Swinging. Arching your back off the pad.'],
+  'captain':['Lower abs, hip flexors','Step up on the foot rails, back flat against the center pad, forearms on the arm pads and hands on the vertical grips. Let your legs hang straight. No weights: it uses your bodyweight, so log reps only.','Raise your knees above your hips while curling your pelvis up slightly, pause, then lower slowly. Once 12 reps are easy, lower slower or try straight-leg raises.','Swinging your legs for momentum. Arching your back off the pad. Dropping your legs fast.'],
   'rotary-torso':['Obliques','Lock your legs in, chest against the pad. Start with a small range.','Rotate slowly from your waist and return under control. Do both directions.','Going heavy and jerking. Twisting farther than is comfortable.'],
   'cable-crunch':['Abs','Rope on a high pulley. Kneel facing it with the rope beside your head.','Crunch down by rounding your spine, elbows toward your thighs, then return slowly.','Sitting back on your heels to pull with your hips.'],
   'treadmill':['Cardio, legs','Clip the safety key to your clothes. Start the belt slowly before speeding up.','Incline walk: about 3.0 mph at 8–12% incline, arms swinging naturally.','Holding the handrails, which cuts the work. Stepping off a moving belt.'],
@@ -646,7 +646,7 @@ function guide(m,showPhoto){
   </div>`;
 }
 // photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
-const LAKEWOOD_PHOTOS={'lateral-raise':'img/lateral-raise.jpg','impact-chest':'img/impact-chest.jpg','chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
+const LAKEWOOD_PHOTOS={'captain':'img/captain.jpg','lateral-raise':'img/lateral-raise.jpg','impact-chest':'img/impact-chest.jpg','chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
 const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
