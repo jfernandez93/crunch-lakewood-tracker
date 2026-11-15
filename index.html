@@ -249,7 +249,7 @@ const RAW=[
   ['cable-row','Cable Low Row','back','Cable',['seated-row'],'V-handle, sit tall, row to belly button.'],
   ['back-ext','Back Extension (45°)','back','Bodyweight',[],'Hips on pad edge, hinge down, squeeze glutes up. Hold a plate to progress.'],
   ['shoulder-press','Shoulder Press (Star Trac)','shoulders','Selectorized',['db-shoulder'],'Handles at shoulder height, press up, don\'t shrug.'],
-  ['lateral-raise','Lateral Raise','shoulders','Selectorized',['cable-lateral'],'Elbows on pads, lead with elbows to shoulder height.'],
+  ['lateral-raise','Lateral Raise (Star Trac Deltoid Raise)','shoulders','Selectorized',['cable-lateral'],'Shoulders lined up with the red pivot discs, arms against the pads, lead with your elbows to shoulder height.'],
   ['rear-delt','Rear Delt Fly','shoulders','Selectorized',['cable-face-pull'],'Pec Fly unit, facing the pad. Arms wide, pinkies lead.'],
   ['cable-lateral','Cable Lateral Raise','shoulders','Cable',['lateral-raise'],'Low pulley, cross-body, raise to shoulder height.'],
   ['cable-face-pull','Cable Face Pull','shoulders','Cable',['rear-delt'],'Rope at eye level, pull to forehead, elbows high.'],
@@ -301,7 +301,7 @@ const TIPS={
   'cable-row':['Middle back, lats, biceps','Low pulley with a V-handle. Feet on the platform, knees slightly bent.','Sit tall and row the handle to your belly button, pause, and extend your arms fully.','Rocking back and forth to move the weight. Rounding your lower back.'],
   'back-ext':['Lower back, glutes, hamstrings','Set the pad just below your hip bones so you can hinge freely. Heels locked under the rollers.','Hinge down with a flat back, then rise until your body is a straight line and squeeze your glutes.','Arching back past straight at the top. Dropping down fast.'],
   'shoulder-press':['Shoulders, triceps','Seat height so the handles start at about shoulder level. Back flat on the pad.','Press overhead without slamming into lockout, then lower to shoulder height slowly.','Arching your lower back off the pad. Shrugging.'],
-  'lateral-raise':['Side shoulders','Seat so your shoulder lines up with the machine\'s pivot point, elbows against the pads.','Raise your elbows out to shoulder height, pause, then lower slowly.','Going above shoulder height. Jerking the weight up.'],
+  'lateral-raise':['Side shoulders','Set the seat height so the tops of your shoulders line up with the red pivot discs on the arms. Sit tall, chest against the back pad, and rest your upper arms against the inside of the round pads.','Raise your elbows out to the sides up to shoulder height, pause 1 s, and lower slowly. Lead with your elbows, not your hands.','Going above shoulder height. Shrugging. Jerking the weight up or leaning back to swing it.'],
   'rear-delt':['Rear shoulders, upper back','Sit facing the pad and set the lever to Rear Delt. Handles at shoulder height.','Sweep your arms back and wide in an arc, squeeze 1 s, and return slowly.','Bending your arms so it becomes a row. Going heavy and shrugging.'],
   'cable-lateral':['Side shoulders','Low pulley. Stand sideways and hold the handle in the far hand, crossing in front of you.','Raise your arm out to shoulder height with a slight elbow bend, then lower slowly.','Swinging your torso.'],
   'cable-face-pull':['Rear shoulders, upper back, rotator cuff','Rope attachment, pulley at about eye level, overhand grip.','Pull the rope toward your forehead, hands moving apart, elbows high. Pause.','Elbows dropping into a row. Leaning way back.'],
@@ -646,7 +646,7 @@ function guide(m,showPhoto){
   </div>`;
 }
 // photos taken at Crunch Lakewood, shipped with the app (your own photo overrides)
-const LAKEWOOD_PHOTOS={'impact-chest':'img/impact-chest.jpg','chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
+const LAKEWOOD_PHOTOS={'lateral-raise':'img/lateral-raise.jpg','impact-chest':'img/impact-chest.jpg','chest-press':'img/chest-press.jpg','shoulder-press':'img/shoulder-press.jpg','glute-drive':'img/glute-drive.jpg','iso-row':'img/iso-row.jpg','seated-row':'img/seated-row.jpg'};
 const photoOf=id=>PH.get(id)||LAKEWOOD_PHOTOS[id]||null;
 const PH=new Map(),PHD=new Map();let phdb=null,photosOK=false;
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lakewood-lift-log-photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('photos');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
